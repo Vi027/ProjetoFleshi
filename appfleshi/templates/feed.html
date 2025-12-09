@@ -9,8 +9,9 @@
     <h1>Feed Principal</h1>
 
     {% for photo in photos %}
-        <a href="{{ url_for('profile', user_id = photo.user_id) }}">
-            <img src="{{ url_for('static', filename='posts_photos/'~ photo.file_name) }}" alt="Imagem">
+        <a href="{{ url_for('profile', user_id=photo.user_id) }}">
+            <img src="{{ url_for('static', filename='posts_photos/' ~ photo.filename) }}" alt="Imagem">
         </a>
+        <a href="{{ url_for('like', photo_id=photo.id) }}">Curtir</a>
     {% endfor %}
 {% endblock %}

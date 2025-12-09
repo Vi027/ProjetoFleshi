@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
+from flask_migrate import Migrate  # ADICIONAR
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///datafleshi.db'
@@ -11,6 +12,8 @@ app.config['UPLOAD_FOLDER'] = 'static/posts_photos'
 database = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
-login_manager.login_view = "homepage"
+login_manager.login_view = 'homepage'
+
+migrate = Migrate(app, database)  # ADICIONAR
 
 from appfleshi import routes

@@ -1,24 +1,31 @@
 {% extends "homepage.html" %}
 
 {% block title %}
-    Flèshi - Perfil
+    Fléshi - Perfil
 {% endblock %}
 
 {% block body %}
-    <body>
-        <h1>Perfil do Usuário: {{ user.username }}</h1>
+    {% include "navbar.html" %}
+
+        <h1>Perfil do usuário: {{ user.username }}</h1>
 
         {% if form %}
         <form method="post" enctype="multipart/form-data">
             {{ form.csrf_token }}
 
-            {{ form.photo() }}
-            {{ form.submit() }}
+            {{ form.photo }}
+
+            {{ form.submit }}
         </form>
         {% endif %}
-        <a href="{{ url_for('logout') }}">Sair</a>
+
         {% for photo in user.photos %}
-            <img src="{{ url_for('static', filename='posts_photos/'~ photo.filename) }} " alt="Imagem">
+            <div>
+                <img src="{{ url_for('static', filename='posts_photos/'~ photo.filename) }}" alt="Imagem">
+
+                {% if current_user.id == user.id %}
+                    <a href="{{ url_for('delete', photo_id=photo.id) }}">Excluir</a>
+                 {% endif %}
+            </div>
         {% endfor %}
-    </body>
 {% endblock %}

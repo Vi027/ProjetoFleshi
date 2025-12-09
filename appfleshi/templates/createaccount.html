@@ -1,27 +1,26 @@
 {% extends "homepage.html" %}
 
 {% block title %}
-    Fléshi - Criar Conta
+  Fléshi  - Criar Conta
 {% endblock %}
 
 {% block form %}
-    <form method="post">
-        {{ form.csrf_token }}
+   <form method="post">
+     {{ form.csrf_token }}
         {{ form.email.label() }}
         {{ form.email() }}
 
         {% if form.email.errors %}
             {% for erro in form.email.errors %}
-                <p class="alert alert-danger">{{ erro }}</p>
+               <p class="alert alert-danger">{{ erro }}</p>
             {% endfor %}
         {% endif %}
 
-        {{ form.username.label() }}
+        {{ form.username.label }}
         {{ form.username() }}
-
-        {% if form.username.errors %}
+         {% if form.username.errors %}
             {% for erro in form.username.errors %}
-                <p class="alert alert-danger">{{ erro }}</p>
+               <p class="alert alert-danger">{{ erro }}</p>
             {% endfor %}
         {% endif %}
 
@@ -31,7 +30,8 @@
         {{ form.confirm_password.label() }}
         {{ form.confirm_password() }}
 
-        {{ form.submit () }}
-    </form>
-<a href="{{ url_for('homepage') }}">Tem uma conta? Faça login!</a>
+        {{ form.submit() }}
+   </form>
+
+   <a href="{{ url_for('homepage') }}"> Já possui uma conta? Faça o login!</a>
 {% endblock %}
