@@ -1,17 +1,33 @@
 {% extends "homepage.html" %}
 
-{% block title %}
-    Fléshi - Feed
-{% endblock %}
+{% block title %}Fléshi - Feed{% endblock %}
 
 {% block body %}
     {% include "navbar.html" %}
-    <h1>Feed Principal</h1>
-
-    {% for photo in photos %}
-        <a href="{{ url_for('profile', user_id=photo.user_id) }}">
-            <img src="{{ url_for('static', filename='posts_photos/' ~ photo.filename) }}" alt="Imagem">
-        </a>
-        <a href="{{ url_for('like', photo_id=photo.id) }}">Curtir</a>
-    {% endfor %}
+    <div class="container">
+        <h1 class="text-center mb-4">Feed Principal</h1>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for photo in photos %}
+            <div class="col">
+                <div class="card h-100">
+                    <a href="{{ url_for('profile', user_id=photo.user_id) }}">
+                        <img src="{{ url_for('static', filename='posts_photos/' ~ photo.filename) }}" class="card-img-top" alt="Imagem">
+                    </a>
+                    <div class="card-body">
+                        <a href="{{ url_for('like', photo_id=photo.id) }}" class="btn btn-primary btn-sm mb-2">Curtir</a>
+                        <form action="{{ url_for('comment', photo_id=photo.id) }}" method="post" class="d-flex mb-2">
+                            <input type="text" name="content" class="form-control me-2" placeholder="Comente aqui..." required>
+                            <button type="submit" class="btn btn-success btn-sm">Comentar</button>
+                        </form>
+                        <div class="comments">
+                            {% for comment in photo.comments %}
+                            <p><strong>{{ comment.user.username }}:</strong> {{ comment.content }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

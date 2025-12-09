@@ -12,6 +12,15 @@ from appfleshi import app
 from flask_migrate import Migrate
 migrate = Migrate(app, database)
 
+from flask import request, redirect, url_for
+from flask_login import login_required, current_user
+from appfleshi.models import Comment, Photo
+
+from flask import redirect, url_for, request
+from flask_login import login_required, current_user
+from appfleshi import app, database
+from appfleshi.models import Photo, Like, Comment
+
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
     login_form = LoginForm()
@@ -83,11 +92,6 @@ def delete(photo_id):
 
     return redirect(url_for('profile', user_id=current_user.id))
 
-from flask import redirect, url_for, request
-from flask_login import login_required, current_user
-from appfleshi import app, database
-from appfleshi.models import Photo, Like
-
 @app.route('/like/<int:photo_id>')
 @login_required
 def like(photo_id):
@@ -108,6 +112,23 @@ def like(photo_id):
 
     database.session.commit()
     return redirect(request.referrer)
+
+@app.route('/comment/<int:photo_id>', methods=['POST'])
+@login_required
+def comment(photo_id):
+    photo = Photo.query.get(photo_id)
+    if not photo:
+        return redirect(url_for('feed'))
+
+    content = request.form.get('content')
+    if content:
+        new_comment = Comment(user_id=current_user.id, photo_id=photo_id, content=content)
+        database.session.add(new_comment)
+        database.session.commit()
+
+
+    return redirect(request.referrer)
+
 
 
 

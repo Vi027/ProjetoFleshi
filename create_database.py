@@ -1,5 +1,5 @@
 from appfleshi import app, database
-from appfleshi.models import User, Photo, Like
+from appfleshi.models import User, Photo, Like, Comment
 
 with app.app_context():
     database.create_all()
