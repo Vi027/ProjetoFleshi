@@ -79,6 +79,9 @@ def feed():
 def delete(photo_id):
     photo = Photo.query.get(photo_id)
     if photo and photo.user_id == current_user.id:
+        for comment in photo.comments:
+            database.session.delete(comment)
+
         path = os.path.join(
             os.path.abspath(os.path.dirname(__file__)),
             app.config['UPLOAD_FOLDER'],

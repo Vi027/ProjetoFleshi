@@ -4,39 +4,88 @@
 
 {% block body %}
     {% include "navbar.html" %}
-    <div class="container">
-        <h1 class="text-center mb-4">{{ user.username }}</h1>
+
+    <div class="container mt-4">
+
+        <h1 class="text-center mb-4"
+            style="color:#6a0dad; font-weight:700;">
+            {{ user.username }}
+        </h1>
 
         {% if form %}
-        <div class="card mb-4">
+        <div class="card shadow-sm mb-4"
+             style="border-radius: 15px; border: none;">
             <div class="card-body">
-                <h5 class="card-title">Enviar nova foto</h5>
+
+                <h5 class="card-title mb-3"
+                    style="color:#6a0dad; font-weight:600;">
+                    Postar nova foto
+                </h5>
+
                 <form action="" method="post" enctype="multipart/form-data">
                     {{ form.csrf_token }}
+
                     <div class="mb-3">
                         {{ form.photo.label }}
                         {{ form.photo(class="form-control") }}
                     </div>
-                    <button type="submit" class="btn btn-primary">Enviar</button>
+
+                    <button type="submit"
+                            class="btn"
+                            style="
+                                background: linear-gradient(90deg, #6a0dad, #9b4dff);
+                                color:white;
+                                font-weight:600;
+                                border-radius: 8px;
+                            ">
+                        Postar
+                    </button>
                 </form>
+
             </div>
         </div>
         {% endif %}
 
-        <h2>Minhas fotos</h2>
+        <h2 class="mb-3"
+            style="color:#6a0dad; font-weight:600;">
+            Minhas fotos
+        </h2>
+
         <div class="row row-cols-1 row-cols-md-3 g-4">
             {% for photo in user.photos %}
             <div class="col">
-                <div class="card h-100">
-                    <img src="{{ url_for('static', filename='posts_photos/' ~ photo.filename) }}" class="card-img-top" alt="Imagem">
-                    {% if current_user.id == user.id %}
-                        <div class="card-body">
-                            <a href="{{ url_for('delete', photo_id=photo.id) }}" class="btn btn-danger btn-sm">Deletar</a>
-                        </div>
-                    {% endif %}
+                <div class="card shadow-sm h-100"
+                     style="border-radius: 15px; border: none;">
+
+                    <img src="{{ url_for('static', filename='posts_photos/' ~ photo.filename) }}"
+                         class="card-img-top"
+                         alt="Imagem"
+                         style="border-radius: 15px 15px 0 0;">
+
+                    <div class="card-body">
+
+                        <p class="mb-2" style="color:#6a0dad;">
+                            Curtidas: {{ photo.likes|length }}
+                        </p>
+
+                        {% if current_user.id == user.id %}
+                        <a href="{{ url_for('delete', photo_id=photo.id) }}"
+                           class="btn btn-sm"
+                           style="
+                               background: #ff4d6d;
+                               color:white;
+                               font-weight:600;
+                               border-radius: 8px; ">
+                            Deletar
+                        </a>
+                        {% endif %}
+
+                    </div>
                 </div>
             </div>
             {% endfor %}
         </div>
+
     </div>
+
 {% endblock %}

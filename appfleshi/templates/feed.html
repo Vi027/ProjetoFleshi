@@ -14,7 +14,8 @@
                         <img src="{{ url_for('static', filename='posts_photos/' ~ photo.filename) }}" class="card-img-top" alt="Imagem">
                     </a>
                     <div class="card-body">
-                        <a href="{{ url_for('like', photo_id=photo.id) }}" class="btn btn-primary btn-sm mb-2">Curtir</a>
+                        <a href="{{ url_for('like', photo_id=photo.id) }}" class="btn btn-primary btn-sm mb-2">Curtir ({{ photo.likes|length }})</a>
+
                         <form action="{{ url_for('comment', photo_id=photo.id) }}" method="post" class="d-flex mb-2">
                             <input type="text" name="content" class="form-control me-2" placeholder="Comente aqui..." required>
                             <button type="submit" class="btn btn-success btn-sm">Comentar</button>
